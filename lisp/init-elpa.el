@@ -16,6 +16,13 @@
     (package-install 'use-package))
   (require 'use-package)
   ;;
-  (setf use-package-always-ensure t))
+  (setf use-package-always-ensure t)
+
+  ;;
+  (setq use-package-always-ensure t)
+  (setq use-package-always-defer t)
+  (setq use-package-always-demand nil)
+  (setq use-package-expand-minimally t)
+  (setq use-package-verbose t))
 
 (provide 'init-elpa)

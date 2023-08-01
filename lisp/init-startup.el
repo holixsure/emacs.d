@@ -3,6 +3,7 @@
 ;; 取消自动备份
 (setq make-backup-files nil)
 ;; Don't show the splash screen
-(setq inhibit-startup-message t)
+;;(setq inhibit-startup-message t)
+(setq inhibit-startup-screen t)
 
 (provide 'init-startup)

@@ -3,7 +3,10 @@ elpa/
 url/
 eshell/
 site-lisp/
+.cache/
+transient/
 tramp
 tutorial
 recentf
+bookmarks
 

@@ -59,7 +59,9 @@
 ;;  :init (load-theme 'afternoon t))
 
 ;; modus-thems
-(load-theme 'modus-vivendi)
+;;(load-theme 'modus-vivendi)
+(use-package modus-themes
+  :init (load-theme 'modus-vivendi-tinted t))
 
 
 

@@ -7,6 +7,8 @@
 (require 'init-package)
 (require 'init-ui)
 (require 'init-org)
+(require 'init-git)
+(require 'init-python)
 
 (require 'sort-tab)
 

@@ -9,6 +9,7 @@
 (require 'init-org)
 (require 'init-git)
 (require 'init-python)
+(require 'init-elfeed)
 
 (require 'sort-tab)
 

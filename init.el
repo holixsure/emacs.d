@@ -76,7 +76,13 @@ The DWIM behaviour of this command is as follows:
 ;; Use the preferred fonts
 (let ((mono-spaced-font "Monospace")
       (proportionately-spaced-font "Sans"))
-  (set-face-attribute 'default nil :family mono-spaced-font :height 140)
+  (cond
+   ((eq system-type 'windows-nt)
+    (set-face-attribute 'default nil :family mono-spaced-font :height 100))
+   ((eq system-type 'darwin)
+    (set-face-attribute 'default nil :family mono-spaced-font :height 140))
+   ((eq system-type 'gnu/linux)
+    (set-face-attribute 'default nil :family mono-spaced-font :height 140)))
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
   (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 

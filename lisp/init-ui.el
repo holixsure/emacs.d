@@ -13,5 +13,8 @@
 ;; Maximize window
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; fill-column-indicator
+(global-display-fill-column-indicator-mode 1)
+
 
 (provide 'init-ui)

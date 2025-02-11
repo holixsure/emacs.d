@@ -7,9 +7,8 @@
 	  "https://plink.anyfeeder.com/nytimes/cn"
 	  "https://plink.anyfeeder.com/weixin/MSRAsia"
 	  "https://protesilaos.com/codelog.xml"
-	  "https://tech.meituan.com/feed"
 	  ))
-  (setq-default elfeed-search-filter "@6-months-ago "))
+  (setq-default elfeed-search-filter "@6-months-ago +unread "))
 
 
 

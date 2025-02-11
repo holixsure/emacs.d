@@ -212,3 +212,21 @@ The DWIM behaviour of this command is as follows:
 ;; markdown-mode
 (use-package markdown-mode
   :ensure t)
+
+
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl"))
+
+
+
+;; ultra-scroll
+;;(use-package ultra-scroll
+;;  :ensure t
+;;  :init
+;;  (setq scroll-conservatively 101
+;;	scroll-margin 0)
+;;  :config
+;;  (ultra-scroll-mode 1))
+

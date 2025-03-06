@@ -13,4 +13,6 @@
 custom.el
 elpa/
 eshell/
+transient/
+url/
 history

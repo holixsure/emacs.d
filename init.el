@@ -1,37 +1,38 @@
- ;; init.el --- Init file  -*- lexical-binding: t -*-
+;; init.el --- Init file  -*- lexical-binding: t -*-
 
 
 ;; Put all auto-generated configurations in a separate file
-;(setq custom-file (locate-user-emacs-file "custom.el"))
-;(load custom-file :no-error-if-file-is-missing)
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file :no-error-if-file-is-missing)
 
 
-;(add-to-list 'load-path
-;	     (expand-file-name (concat user-emacs-directory "lisp")))
+(add-to-list 'load-path
+	     (expand-file-name (concat user-emacs-directory "lisp")))
 
 
 ;; Set up the package manager
-;(require 'package)
-;(package-initialize)
-;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 
-;(require 'init-startup)
+(require 'init-startup)
 
 
 ;; Set up use-package
-;(when (< emacs-major-version 29)
-;  (unless (package-installed-p 'use-package)
-;    (unless package-archive-contents
-;      (package-refresh-contents))
-;    (package-install 'use-package)))
+(when (< emacs-major-version 29)
+  (unless (package-installed-p 'use-package)
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (package-install 'use-package)))
+
 
 
 ;; Do not show those confusing warnings when installing packages
-;(add-to-list 'display-buffer-alist
-;	     '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
-;	       (display-buffer-no-window)
-;	       (allow-no-window . t)))
+(add-to-list 'display-buffer-alist
+	     '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+	       (display-buffer-no-window)
+	       (allow-no-window . t)))
 
 
 ;; Delete the selected text upon text insertion
@@ -70,7 +71,7 @@
 
 
 ;; Decide what to do with the graphical bars
-;(require 'init-ui)
+(require 'init-ui)
 
 
 ;; Use the preferred fonts

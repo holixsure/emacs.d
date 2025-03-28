@@ -4,6 +4,9 @@
 ;; line number
 (global-display-line-numbers-mode 1)
 
+;; high light line
+(global-hl-line-mode 1)
+
 ;; tool bar
 (tool-bar-mode -1)
 

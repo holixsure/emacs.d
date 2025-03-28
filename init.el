@@ -36,37 +36,37 @@
 
 
 ;; Delete the selected text upon text insertion
-;(use-package delsel
-;  :ensure nil ; no need to install it as it is built-in
-;  :hook (after-init . delete-selection-mode))
+(use-package delsel
+  :ensure nil ; no need to install it as it is built-in
+  :hook (after-init . delete-selection-mode))
 
 
 ;; Make C-g a bit more helpful
-;(defun prot/keyboard-quit-dwim ()
-;  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
+(defun prot/keyboard-quit-dwim ()
+  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 
-;pThe generic `keyboard-quit' does not do the expected thing when
-;the minibuffer is open. Whereas we want it to close the
-;minibuffer, even without explicitly focusing it.
+The generic `keyboard-quit' does not do the expected thing when
+the minibuffer is open. Whereas we want it to close the
+minibuffer, even without explicitly focusing it.
 
-;The DWIM behaviour of this command is as follows:
+The DWIM behaviour of this command is as follows:
 
-;- When the region is active, disable it.
-;- When a minibuffer is open, but not focused, close the minibuffer.
-;- When the Completions buffer is selected, close it.
-;- In every other case use the regular `keyboard-quit'."
-;  (interactive)
-;  (cond
-;   ((region-active-p)
-;    (keyboard-quit))
-;   ((derived-mode-p 'completion-list-mode)
-;    (delete-completion-window))
-;   ((> (minibuffer-depth) 0)
-;    (abort-recursive-edit))
-;   (t
-;    (keyboard-quit))))
+- When the region is active, disable it.
+- When a minibuffer is open, but not focused, close the minibuffer.
+- When the Completions buffer is selected, close it.
+- In every other case use the regular `keyboard-quit'."
+  (interactive)
+  (cond
+   ((region-active-p)
+    (keyboard-quit))
+   ((derived-mode-p 'completion-list-mode)
+    (delete-completion-window))
+   ((> (minibuffer-depth) 0)
+    (abort-recursive-edit))
+   (t
+    (keyboard-quit))))
 
-;(define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
+(define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 
 
 
@@ -98,64 +98,64 @@
 
 
 ;; Use icon fonts in various places
-;(use-package nerd-icons
-;  :ensure t)
+(use-package nerd-icons
+  :ensure t)
 
-;(use-package nerd-icons-completion
-;  :ensure t
-;  :after marginalia
-;  :config
-;  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
+(use-package nerd-icons-completion
+  :ensure t
+  :after marginalia
+  :config
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
-;(use-package nerd-icons-corfu
-;  :ensure t
-;  :after corfu
-;  :config
-;  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+(use-package nerd-icons-corfu
+  :ensure t
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
-;(use-package nerd-icons-dired
-;  :ensure t
-;  :hook
-;  (dired-mode . nerd-icons-dired-mode))
+(use-package nerd-icons-dired
+  :ensure t
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 
 
 
 ;; Configure the minibuffer and related
-;(use-package vertico
-;  :ensure t
-;  :hook (after-init . vertico-mode))
+(use-package vertico
+  :ensure t
+  :hook (after-init . vertico-mode))
 
-;(use-package marginalia
-;  :ensure t
-;  :hook (after-init . marginalia-mode))
+(use-package marginalia
+  :ensure t
+  :hook (after-init . marginalia-mode))
 
-;(use-package orderless
-;  :ensure t
-;  :config
-;  (setq completion-styles '(orderless basic))
-;  (setq completion-category-defaults nil)
-;  (setq completion-category-overrides nil))
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides nil))
 
-;(use-package savehist
-;  :ensure nil ; it is built-in
-;  :hook (after-init . savehist-mode))
+(use-package savehist
+  :ensure nil ; it is built-in
+  :hook (after-init . savehist-mode))
 
-;(use-package corfu
-;  :ensure t
-;  :hook (after-init . global-corfu-mode)
-;  :bind (:map corfu-map ("<tab>" . corfu-complete))
-;  :config
-;  (setq tab-always-indent 'complete)
-;  (setq corfu-preview-current nil)
-;  (setq corfu-min-width 20)
+(use-package corfu
+  :ensure t
+  :hook (after-init . global-corfu-mode)
+  :bind (:map corfu-map ("<tab>" . corfu-complete))
+  :config
+  (setq tab-always-indent 'complete)
+  (setq corfu-preview-current nil)
+  (setq corfu-min-width 20)
 
-;  (setq corfu-popupinfo-delay '(1.25 . 0.5))
-;  (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+  (setq corfu-popupinfo-delay '(1.25 . 0.5))
+  (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
 
-  ;; Sort by input history (no need to modify `corfu-sort-function').
-;  (with-eval-after-load 'savehist
-;    (corfu-history-mode 1)
-;    (add-to-list 'savehist-additional-variables 'corfu-history)))
+;; Sort by input history (no need to modify `corfu-sort-function').
+  (with-eval-after-load 'savehist
+    (corfu-history-mode 1)
+    (add-to-list 'savehist-additional-variables 'corfu-history)))
 
 
 
@@ -241,4 +241,16 @@
 ;;	scroll-margin 0)
 ;;  :config
 ;;  (ultra-scroll-mode 1))
+
+
+(use-package magit
+  :ensure t)
+
+
+(use-package swiper
+  :ensure t
+  :config
+  (setq ivy-wrap t)
+  :bind (("C-s" . swiper)
+	 ("C-r" . swiper)))
 

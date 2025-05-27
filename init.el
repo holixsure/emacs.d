@@ -221,15 +221,17 @@ The DWIM behaviour of this command is as follows:
 ;  (setq inferior-lisp-program "sbcl"))
 
 
-;(use-package gptel
-;  :ensure t
-;  :config
-;  (setq
-;   gptel-model 'deepseek-r1:1.5b
-;   gptel-backend (gptel-make-ollama "Ollama"
-;				    :host "localhost:11434"
-;				    :stream t
-;				    :models '(deepseek-r1:1.5b))))
+;; gptel
+(use-package gptel
+  :ensure t
+  :config
+  (setq gptel-model 'deepseek-ai/DeepSeek-R1-Distil-Qwen-7B
+	gptel-backend (gptel-make-openai "SiliconFlow"
+			:host "api.siliconflow.cn"
+			:endpoint "/v1/chat/completions"
+			:stream t
+			:key "sk-bqxxmcksnrcjrtdoznjzobkabandtpycbmeebxqrmgdwqabl"
+			:models '(deepseek-ai/DeepSeek-R1-Distill-Qwen-7B))))
 
 
 

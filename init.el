@@ -222,16 +222,26 @@ The DWIM behaviour of this command is as follows:
 
 
 ;; gptel
+(defun holixsure/gptel-api-key (host login)
+  (let ((entry (car (auth-source-search
+		     :host host
+		     :login login
+		     :require '(:secret)))))
+    (when entry
+      (let ((secret (plist-get entry :secret)))
+	(if (functionp secret)
+	    (funcall secret)
+	  secret)))))
+
 (use-package gptel
   :ensure t
   :config
-  (setq gptel-model 'deepseek-ai/DeepSeek-R1-Distil-Qwen-7B
-	gptel-backend (gptel-make-openai "SiliconFlow"
-			:host "api.siliconflow.cn"
-			:endpoint "/v1/chat/completions"
+  (setq gptel-backend (gptel-make-openai "OpenRouter"
+			:host "openrouter.ai"
+			:endpoint "/api/v1/chat/completions"
 			:stream t
-			:key "sk-bqxxmcksnrcjrtdoznjzobkabandtpycbmeebxqrmgdwqabl"
-			:models '(deepseek-ai/DeepSeek-R1-Distill-Qwen-7B))))
+			:key (holixsure/gptel-api-key "openrouter.ai" "api-key")
+			:models '(deepseek/deepseek-r1-0528-qwen3-8b:free))))
 
 
 

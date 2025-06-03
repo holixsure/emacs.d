@@ -236,12 +236,13 @@ The DWIM behaviour of this command is as follows:
 (use-package gptel
   :ensure t
   :config
-  (setq gptel-backend (gptel-make-openai "OpenRouter"
+  (setq gptel-default-mode 'org-mode
+	gptel-backend (gptel-make-openai "OpenRouter"
 			:host "openrouter.ai"
 			:endpoint "/api/v1/chat/completions"
 			:stream t
 			:key (holixsure/gptel-api-key "openrouter.ai" "api-key")
-			:models '(deepseek/deepseek-r1-0528-qwen3-8b:free))))
+			:models '(deepseek/deepseek-r1-0528:free))))
 
 
 
@@ -265,4 +266,9 @@ The DWIM behaviour of this command is as follows:
   (setq ivy-wrap t)
   :bind (("C-s" . swiper)
 	 ("C-r" . swiper)))
+
+
+;; eat
+(use-package eat
+  :ensure t)
 

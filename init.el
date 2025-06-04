@@ -242,7 +242,7 @@ The DWIM behaviour of this command is as follows:
 			:endpoint "/api/v1/chat/completions"
 			:stream t
 			:key (holixsure/gptel-api-key "openrouter.ai" "api-key")
-			:models '(deepseek/deepseek-r1-0528:free))))
+			:models '(deepseek/deepseek-r1-0528-qwen3-8b:free))))
 
 
 

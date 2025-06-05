@@ -72,6 +72,7 @@ The DWIM behaviour of this command is as follows:
 
 ;; Decide what to do with the graphical bars
 (require 'init-ui)
+(require 'init-treemacs)
 
 
 ;; Use the preferred fonts
@@ -90,10 +91,10 @@ The DWIM behaviour of this command is as follows:
 
 
 ;; Choose a theme and tweak the looks of Emacs
-;(use-package modus-themes
-;  :ensure t
-;  :config
-;  (load-theme 'modus-vivendi-tinted :no-confirm-loading))
+(use-package modus-themes
+  :ensure t
+  :config
+  (load-theme 'modus-vivendi-tinted :no-confirm-loading))
 
 
 

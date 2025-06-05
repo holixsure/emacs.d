@@ -16,4 +16,5 @@ eshell/
 transient/
 url/
 history
+.cache
 

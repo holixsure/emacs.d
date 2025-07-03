@@ -273,3 +273,6 @@ The DWIM behaviour of this command is as follows:
 (use-package eat
   :ensure t)
 
+
+(global-set-key (kbd "M-o") #'other-window)
+

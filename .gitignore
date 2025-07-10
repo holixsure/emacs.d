@@ -11,10 +11,12 @@
 *.~undo-tree
 
 custom.el
-elpa/
-eshell/
-transient/
-url/
 history
 .cache
+auto-save-list/
+elpa/
+eshell/
+games/
+transient/
+url/
 

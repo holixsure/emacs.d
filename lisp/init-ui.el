@@ -17,7 +17,28 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; fill-column-indicator
-;(global-display-fill-column-indicator-mode 1)
+;;(global-display-fill-column-indicator-mode 1)
+
+
+
+;; Smooth scroll up & down
+(setq pixel-scroll-precision-interpolate-page t)
+(add-hook 'after-init-hook #'pixel-scroll-precision-mode)
+
+(defun pixel-scroll-down (&optional lines)
+  (interactive)
+  (if lines
+      (pixel-scroll-precision-interpolate (* -1 lines (pixel-line-height)))
+    (pixel-scroll-interpolate-down)))
+
+(defun pixel-scroll-up (&optional lines)
+  (interactive)
+  (if lines
+      (pixel-scroll-precision-interpolate (* lines (pixel-line-height))))
+  (pixel-scroll-interpolate-up))
+
+(defalias 'scroll-up-command 'pixel-scroll-interpolate-down)
+(defalias 'scroll-down-command 'pixel-scroll-interpolate-up)
 
 
 (provide 'init-ui)

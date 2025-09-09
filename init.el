@@ -258,7 +258,9 @@ The DWIM behaviour of this command is as follows:
 
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (setq magit-log-section-commit-count 30))
 
 
 (use-package swiper

@@ -10,9 +10,11 @@
 # Undo-tree save-files
 *.~undo-tree
 
+.cache
 custom.el
 history
-.cache
+projects
+
 auto-save-list/
 elpa/
 eshell/

@@ -276,5 +276,10 @@ The DWIM behaviour of this command is as follows:
   :ensure t)
 
 
+;; vterm
+(use-package vterm
+  :ensure t)
+
+
 (global-set-key (kbd "M-o") #'other-window)
 

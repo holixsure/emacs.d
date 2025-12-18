@@ -72,7 +72,7 @@ The DWIM behaviour of this command is as follows:
 
 ;; Decide what to do with the graphical bars
 (require 'init-ui)
-(require 'init-treemacs)
+;; (require 'init-treemacs)
 
 
 ;; Use the preferred fonts
@@ -263,12 +263,20 @@ The DWIM behaviour of this command is as follows:
   (setq magit-log-section-commit-count 30))
 
 
-(use-package swiper
+;;(use-package swiper
+;;  :ensure t
+;;  :config
+;;  (setq ivy-wrap t)
+;;  :bind (("C-s" . swiper)
+;;	 ("C-r" . swiper)))
+
+;; consult
+(use-package consult
   :ensure t
-  :config
-  (setq ivy-wrap t)
-  :bind (("C-s" . swiper)
-	 ("C-r" . swiper)))
+  :bind (("C-s" . consult-line)
+	 ("C-x b" . consult-buffer)
+	 ("M-y" . consult-yank-pop)
+	 ("M-g g" . consult-goto-line)))
 
 
 ;; eat
@@ -281,5 +289,15 @@ The DWIM behaviour of this command is as follows:
   :ensure t)
 
 
-(global-set-key (kbd "M-o") #'other-window)
+;; leetcode
+(use-package leetcode
+  :ensure t)
+
+
+;; ace-window
+(use-package ace-window
+  :ensure t
+  :bind ("M-o" . ace-window)
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 

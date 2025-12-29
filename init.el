@@ -1,6 +1,10 @@
 ;; init.el --- Init file  -*- lexical-binding: t -*-
 
 
+;; Performance optimization
+(setq gc-cons-threshold (* 100 1024 1024))
+
+
 ;; Put all auto-generated configurations in a separate file
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
@@ -25,6 +29,9 @@
     (unless package-archive-contents
       (package-refresh-contents))
     (package-install 'use-package)))
+
+
+(require 'init-python)
 
 
 
@@ -161,38 +168,38 @@ The DWIM behaviour of this command is as follows:
 
 
 ;; Tweak the dired Emacs file manager
-;(use-package dired
-;  :ensure nil
-;  :commands (dired)
-;  :hook
-;  ((dired-mode . dired-hide-details-mode)
-;   (dired-mode . hl-line-mode))
-;  :config
-;  (setq dired-recursive-copies 'always)
-;  (setq dired-recursive-deletes 'always)
-;  (setq delete-by-moving-to-trash t)
-;  (setq dired-dwim-target t))
+(use-package dired
+  :ensure nil
+  :commands (dired)
+  :hook
+  ((dired-mode . dired-hide-details-mode)
+   (dired-mode . hl-line-mode))
+  :config
+  (setq dired-recursive-copies 'always)
+  (setq dired-recursive-deletes 'always)
+  (setq delete-by-moving-to-trash t)
+  (setq dired-dwim-target t))
 
-;(use-package dired-subtree
-;  :ensure t
-;  :after dired
-;  :bind
-;  ( :map dired-mode-map
-;    ("<tab>" . dired-subtree-toggle)
-;    ("TAB" . dired-subtree-toggle)
-;    ("<backtab>" . dired-subtree-remove)
-;    ("S-TAB" . dired-subtree-remove))
-;  :config
-;  (setq dired-subtree-use-backgrounds nil))
+(use-package dired-subtree
+  :ensure t
+  :after dired
+  :bind
+  ( :map dired-mode-map
+    ("<tab>" . dired-subtree-toggle)
+    ("TAB" . dired-subtree-toggle)
+    ("<backtab>" . dired-subtree-remove)
+    ("S-TAB" . dired-subtree-remove))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
 
-;(use-package trashed
-;  :ensure t
-;  :commands (trashed)
-;  :config
-;  (setq trashed-action-confirmer 'y-or-n-p)
-;  (setq trashed-use-header-line t)
-;  (setq trashed-sort-key '("Date deleted" . t))
-;  (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
+(use-package trashed
+  :ensure t
+  :commands (trashed)
+  :config
+  (setq trashed-action-confirmer 'y-or-n-p)
+  (setq trashed-use-header-line t)
+  (setq trashed-sort-key '("Date deleted" . t))
+  (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
 
 
@@ -292,6 +299,24 @@ The DWIM behaviour of this command is as follows:
 ;; leetcode
 (use-package leetcode
   :ensure t)
+
+
+;; projectile - project navigation
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
+  (setq projectile-completion-system 'default))
+
+
+;; lsp-ui - LSP UI enhancements
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :config
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-doc-delay 0.5))
 
 
 ;; ace-window

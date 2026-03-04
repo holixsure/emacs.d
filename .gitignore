@@ -14,8 +14,11 @@
 custom.el
 history
 projects
+tramp
 
+.agent-shell/
 auto-save-list/
+eca/
 elpa/
 eshell/
 games/

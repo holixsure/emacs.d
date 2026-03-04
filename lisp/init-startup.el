@@ -1,13 +1,16 @@
-;;(add-to-list 'image-types 'svg)
+;;; init-startup.el --- Startup profile -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 
-;; 取消自动保存
+
+;;; Disable auto save
 (setq auto-save-default nil)
 
-;; 取消自动备份
+;;; Disable backup
 (setq make-backup-files nil)
 
-;; Don't show the splash screen
-;;(setq inhibit-startup-message t)
+;;; Don't show the splash screen
 (setq inhibit-startup-screen t)
 
 (provide 'init-startup)
+;;; init-startup.el ends here

@@ -1,7 +1,9 @@
-;; init.el --- Init file  -*- lexical-binding: t -*-
+;;; init.el --- Emacs init profile  -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 
 
-;; Performance optimization
+;;; Performance optimization
 (setq gc-cons-threshold (* 100 1024 1024))
 
 
@@ -14,24 +16,25 @@
 	     (expand-file-name (concat user-emacs-directory "lisp")))
 
 
+(require 'init-startup)
+(require 'init-ui)
+
+
 ;; Set up the package manager
 (require 'package)
-(package-initialize)
+
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
+(package-initialize)
 
-(require 'init-startup)
+(unless package-archive-contents
+  (package-refresh-contents))
 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
-;; Set up use-package
-(when (< emacs-major-version 29)
-  (unless (package-installed-p 'use-package)
-    (unless package-archive-contents
-      (package-refresh-contents))
-    (package-install 'use-package)))
-
-
-(require 'init-python)
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 
 
@@ -53,7 +56,7 @@
   "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 
 The generic `keyboard-quit' does not do the expected thing when
-the minibuffer is open. Whereas we want it to close the
+the minibuffer is open.  Whereas we want it to close the
 minibuffer, even without explicitly focusing it.
 
 The DWIM behaviour of this command is as follows:
@@ -77,23 +80,18 @@ The DWIM behaviour of this command is as follows:
 
 
 
-;; Decide what to do with the graphical bars
-(require 'init-ui)
-;; (require 'init-treemacs)
-
-
 ;; Use the preferred fonts
-;;(let ((mono-spaced-font "Monospace")
-;;      (proportionately-spaced-font "Sans"))
-;;  (cond
-;;   ((eq system-type 'windows-nt)
-;;    (set-face-attribute 'default nil :family mono-spaced-font :height 100))
-;;   ((eq system-type 'darwin)
-;;    (set-face-attribute 'default nil :family mono-spaced-font :height 140))
-;;   ((eq system-type 'gnu/linux)
-;;    (set-face-attribute 'default nil :family mono-spaced-font :height 140)))
-;;  (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
-;;  (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
+(let ((mono-spaced-font "Monospace")
+      (proportionately-spaced-font "Sans"))
+  (cond
+   ((eq system-type 'windows-nt)
+    (set-face-attribute 'default nil :family mono-spaced-font :height 100))
+   ((eq system-type 'darwin)
+    (set-face-attribute 'default nil :family mono-spaced-font :height 140))
+   ((eq system-type 'gnu/linux)
+    (set-face-attribute 'default nil :family mono-spaced-font :height 140)))
+  (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
 
 
@@ -267,7 +265,7 @@ The DWIM behaviour of this command is as follows:
 (use-package magit
   :ensure t
   :config
-  (setq magit-log-section-commit-count 30))
+  (setq magit-log-section-commit-count 100))
 
 
 ;;(use-package swiper
@@ -287,36 +285,36 @@ The DWIM behaviour of this command is as follows:
 
 
 ;; eat
-(use-package eat
-  :ensure t)
+;;(use-package eat
+;;  :ensure t)
 
 
 ;; vterm
-(use-package vterm
-  :ensure t)
+;;(use-package vterm
+;;  :ensure t)
 
 
 ;; leetcode
-(use-package leetcode
-  :ensure t)
+;;(use-package leetcode
+;;  :ensure t)
 
 
 ;; projectile - project navigation
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode +1)
-  (setq projectile-completion-system 'default))
+;;(use-package projectile
+;;  :ensure t
+;;  :config
+;;  (projectile-mode +1)
+;;  (setq projectile-completion-system 'default))
 
 
 ;; lsp-ui - LSP UI enhancements
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :config
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-position 'bottom)
-  (setq lsp-ui-doc-delay 0.5))
+;;(use-package lsp-ui
+;;  :ensure t
+;;  :after lsp-mode
+;;  :config
+;;  (setq lsp-ui-doc-enable t)
+;;  (setq lsp-ui-doc-position 'bottom)
+;;  (setq lsp-ui-doc-delay 0.5))
 
 
 ;; ace-window
@@ -325,4 +323,119 @@ The DWIM behaviour of this command is as follows:
   :bind ("M-o" . ace-window)
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+
+;; Elpy, the Emacs Python IDE
+;;(use-package elpy
+;;  :ensure t
+;;  :init
+;;  (elpy-enable))
+
+
+
+;;;; ==============================
+;;;; Python Development Setup
+;;;; ==============================
+
+;; -------- 性能优化 --------
+
+(setq read-process-output-max (* 1024 1024)) ;; 1MB
+(setq lsp-idle-delay 0.2)
+(setq gc-cons-threshold (* 100 1024 1024))
+
+;; -------- Python Mode --------
+
+(use-package python
+  :ensure nil
+  :hook (python-mode . lsp-deferred)
+  :config
+  (setq python-shell-interpreter "python3"
+        python-indent-offset 4))
+
+;; Emacs 29 treesit
+(when (fboundp 'treesit-available-p)
+  (setq major-mode-remap-alist
+        '((python-mode . python-ts-mode))))
+
+;; -------- LSP --------
+
+(use-package lsp-mode
+  :commands lsp lsp-deferred
+  :hook (python-mode . lsp-deferred)
+  :config
+  (setq lsp-keymap-prefix "C-c l"
+        lsp-prefer-flymake nil
+        lsp-enable-symbol-highlighting t
+        lsp-headerline-breadcrumb-enable t))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :config
+  (setq lsp-ui-doc-position 'at-point
+        lsp-ui-doc-delay 0.3))
+
+(use-package lsp-pyright
+  :after lsp-mode
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))
+
+;; -------- 补全（已存在 corfu，不重复定义）--------
+
+;; -------- Lint (Ruff 推荐) --------
+
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(after! flycheck
+  (setq flycheck-python-ruff-executable "ruff"))
+
+;; -------- 自动格式化 --------
+
+(use-package blacken
+  :hook (python-mode . blacken-mode)
+  :config
+  (setq blacken-line-length 88))
+
+;; -------- 虚拟环境 --------
+
+(use-package pyvenv
+  :config
+  (pyvenv-mode 1))
+
+(use-package direnv
+  :config
+  (direnv-mode))
+
+;; -------- Debug --------
+
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
+  (dap-auto-configure-mode))
+
+;; F5 启动调试
+(global-set-key (kbd "<f5>") #'dap-debug)
+
+;;;; ==============================
+;;;; End Python Setup
+;;;; ==============================
+
+
+;;; ECA
+;;(use-package eca
+;;  :vc (:url "https://github.com/editor-code-assistant/eca-emacs" :rev :newest))
+
+
+;;; Agent-Shell
+(use-package agent-shell)
+
+
+;; test
+(add-to-list 'load-path "/Users/HolixSure/Documents/Drive/Tools/Emacs/holixsure-chat")
+(require 'holixsure-chat)
+
+
 

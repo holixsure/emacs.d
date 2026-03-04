@@ -1,27 +1,31 @@
-;; scroll bar
+;;; init-ui.el --- Emacs UI profile -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
+;;; scroll bar
 (scroll-bar-mode -1)
 
-;; line number
+;;; line number
 (global-display-line-numbers-mode 1)
 
-;; high light line
+;;; high light line
 (global-hl-line-mode 1)
 
-;; tool bar
+;;; tool bar
 (tool-bar-mode -1)
 
-;; mneu bar
+;;; mneu bar
 (menu-bar-mode -1)
 
-;; Maximize window
+;;; Maximize window
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; fill-column-indicator
+;;; fill-column-indicator
 ;;(global-display-fill-column-indicator-mode 1)
 
 
 
-;; Smooth scroll up & down
+;;; Smooth scroll up & down
 (setq pixel-scroll-precision-interpolate-page t)
 (add-hook 'after-init-hook #'pixel-scroll-precision-mode)
 
@@ -42,3 +46,4 @@
 
 
 (provide 'init-ui)
+;;; init-ui.el ends here

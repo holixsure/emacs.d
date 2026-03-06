@@ -81,25 +81,118 @@ The DWIM behaviour of this command is as follows:
 
 
 ;; Use the preferred fonts
-(let ((mono-spaced-font "Monospace")
+(let ((mono-spaced-font
+       (cond
+	((eq system-type 'darwin) "Menlo")
+;;	((eq system-type 'darwin) "JetBrains Mono")
+	((eq system-type 'windows-nt) "Consolas")
+	(t "DejaVu Sans Mono")))
       (proportionately-spaced-font "Sans"))
   (cond
    ((eq system-type 'windows-nt)
-    (set-face-attribute 'default nil :family mono-spaced-font :height 100))
+    (set-face-attribute 'default nil
+			:family mono-spaced-font
+			:height 100))
    ((eq system-type 'darwin)
-    (set-face-attribute 'default nil :family mono-spaced-font :height 140))
+    (set-face-attribute 'default nil
+			:family mono-spaced-font
+			:height 140))
    ((eq system-type 'gnu/linux)
-    (set-face-attribute 'default nil :family mono-spaced-font :height 140)))
-  (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
-  (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
+    (set-face-attribute 'default nil
+			:family mono-spaced-font
+			:height 140)))
+  (set-face-attribute 'fixed-pitch nil
+		      :family mono-spaced-font
+		      :height 1.0)
+  (set-face-attribute 'variable-pitch nil
+		      :family proportionately-spaced-font
+		      :height 1.0))
 
 
 
 ;; Choose a theme and tweak the looks of Emacs
 (use-package modus-themes
-  :ensure t
   :config
   (load-theme 'modus-vivendi-tinted :no-confirm-loading))
+
+
+
+;;; magit
+(use-package magit
+  :config
+  (setq magit-log-section-commit-count 100))
+
+
+
+;; Configure the minibuffer and related
+;; ------------------------------------------
+;; Vertico — Minibuffer UI for completion
+;; ------------------------------------------
+(use-package vertico
+  ;; Enable Vertico after Emacs startup.
+  ;; Vertico replaces the default horizontal completion UI
+  ;; with a clean vertical candidate list in the minibuffer.
+  ;; It only controls the UI layer — not matching logic.
+  :hook (after-init . vertico-mode))
+
+;; Maximum number of candidates displayed in the minibuffer.
+;; Increasing this improves visibility when many matches exist.
+(setq vertico-count 15)
+
+;; Allow cyclic navigation in the candidate list.
+;; When reaching the bottom, it continues from the top (and vice versa).
+(setq vertico-cycle t)
+
+
+;; ------------------------------------------
+;; Marginalia — Candidate annotations
+;; ------------------------------------------
+(use-package marginalia
+  ;; Adds contextual metadata to minibuffer candidates.
+  ;; Examples:
+  ;; - Commands show their type (Function, Command, etc.)
+  ;; - Files show paths
+  ;; - Buffers show major mode
+  ;; This improves discoverability and clarity.
+  :hook (after-init . marginalia-mode))
+
+;; ------------------------------------------
+;; Orderless — Flexible matching style
+;; ------------------------------------------
+(use-package orderless
+  :config
+  ;; Use orderless as the primary completion style.
+  ;; This enables multi-keyword, unordered matching.
+  ;; Example:
+  ;;   typing "con buf" can match "consult-buffer"
+  ;; 'basic' is kept as a fallback.
+  (setq completion-styles '(orderless basic))
+  ;; Disable category-specific defaults to ensure
+  ;; all categories (files, buffers, commands, etc.)
+  ;; use the same completion behavior.
+  (setq completion-category-defaults nil)
+  ;; No category-specific overrides.
+  ;; You could customize file completion differently here if desired.
+  (setq completion-category-overrides nil))
+
+
+;; ------------------------------------------
+;; Consult — Enhanced navigation & search commands
+;; ------------------------------------------
+(use-package consult
+  :bind (
+	 ;; Search within the current buffer.
+         ;; Acts as a modern replacement for isearch.
+         ;; Integrates with orderless + vertico.
+	 ("C-s" . consult-line)
+	 ;; Enhanced buffer switching.
+         ;; Displays recent buffers and additional metadata.
+	 ("C-x b" . consult-buffer)
+	 ;; Visual kill-ring browser.
+         ;; Replaces the default yank-pop with a previewable list.
+	 ("M-y" . consult-yank-pop)
+	 ;; Improved goto-line with live preview.
+	 ("M-g g" . consult-goto-line)))
 
 
 
@@ -125,22 +218,6 @@ The DWIM behaviour of this command is as follows:
   (dired-mode . nerd-icons-dired-mode))
 
 
-
-;; Configure the minibuffer and related
-(use-package vertico
-  :ensure t
-  :hook (after-init . vertico-mode))
-
-(use-package marginalia
-  :ensure t
-  :hook (after-init . marginalia-mode))
-
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless basic))
-  (setq completion-category-defaults nil)
-  (setq completion-category-overrides nil))
 
 (use-package savehist
   :ensure nil ; it is built-in
@@ -229,6 +306,8 @@ The DWIM behaviour of this command is as follows:
 
 ;; gptel
 (defun holixsure/gptel-api-key (host login)
+  "This is a test.
+`HOST, `LOGIN."
   (let ((entry (car (auth-source-search
 		     :host host
 		     :login login
@@ -262,11 +341,6 @@ The DWIM behaviour of this command is as follows:
 ;;  (ultra-scroll-mode 1))
 
 
-(use-package magit
-  :ensure t
-  :config
-  (setq magit-log-section-commit-count 100))
-
 
 ;;(use-package swiper
 ;;  :ensure t
@@ -275,46 +349,6 @@ The DWIM behaviour of this command is as follows:
 ;;  :bind (("C-s" . swiper)
 ;;	 ("C-r" . swiper)))
 
-;; consult
-(use-package consult
-  :ensure t
-  :bind (("C-s" . consult-line)
-	 ("C-x b" . consult-buffer)
-	 ("M-y" . consult-yank-pop)
-	 ("M-g g" . consult-goto-line)))
-
-
-;; eat
-;;(use-package eat
-;;  :ensure t)
-
-
-;; vterm
-;;(use-package vterm
-;;  :ensure t)
-
-
-;; leetcode
-;;(use-package leetcode
-;;  :ensure t)
-
-
-;; projectile - project navigation
-;;(use-package projectile
-;;  :ensure t
-;;  :config
-;;  (projectile-mode +1)
-;;  (setq projectile-completion-system 'default))
-
-
-;; lsp-ui - LSP UI enhancements
-;;(use-package lsp-ui
-;;  :ensure t
-;;  :after lsp-mode
-;;  :config
-;;  (setq lsp-ui-doc-enable t)
-;;  (setq lsp-ui-doc-position 'bottom)
-;;  (setq lsp-ui-doc-delay 0.5))
 
 
 ;; ace-window
@@ -333,96 +367,6 @@ The DWIM behaviour of this command is as follows:
 
 
 
-;;;; ==============================
-;;;; Python Development Setup
-;;;; ==============================
-
-;; -------- 性能优化 --------
-
-(setq read-process-output-max (* 1024 1024)) ;; 1MB
-(setq lsp-idle-delay 0.2)
-(setq gc-cons-threshold (* 100 1024 1024))
-
-;; -------- Python Mode --------
-
-(use-package python
-  :ensure nil
-  :hook (python-mode . lsp-deferred)
-  :config
-  (setq python-shell-interpreter "python3"
-        python-indent-offset 4))
-
-;; Emacs 29 treesit
-(when (fboundp 'treesit-available-p)
-  (setq major-mode-remap-alist
-        '((python-mode . python-ts-mode))))
-
-;; -------- LSP --------
-
-(use-package lsp-mode
-  :commands lsp lsp-deferred
-  :hook (python-mode . lsp-deferred)
-  :config
-  (setq lsp-keymap-prefix "C-c l"
-        lsp-prefer-flymake nil
-        lsp-enable-symbol-highlighting t
-        lsp-headerline-breadcrumb-enable t))
-
-(use-package lsp-ui
-  :after lsp-mode
-  :config
-  (setq lsp-ui-doc-position 'at-point
-        lsp-ui-doc-delay 0.3))
-
-(use-package lsp-pyright
-  :after lsp-mode
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred))))
-
-;; -------- 补全（已存在 corfu，不重复定义）--------
-
-;; -------- Lint (Ruff 推荐) --------
-
-(use-package flycheck
-  :init (global-flycheck-mode))
-
-(after! flycheck
-  (setq flycheck-python-ruff-executable "ruff"))
-
-;; -------- 自动格式化 --------
-
-(use-package blacken
-  :hook (python-mode . blacken-mode)
-  :config
-  (setq blacken-line-length 88))
-
-;; -------- 虚拟环境 --------
-
-(use-package pyvenv
-  :config
-  (pyvenv-mode 1))
-
-(use-package direnv
-  :config
-  (direnv-mode))
-
-;; -------- Debug --------
-
-(use-package dap-mode
-  :after lsp-mode
-  :config
-  (require 'dap-python)
-  (setq dap-python-debugger 'debugpy)
-  (dap-auto-configure-mode))
-
-;; F5 启动调试
-(global-set-key (kbd "<f5>") #'dap-debug)
-
-;;;; ==============================
-;;;; End Python Setup
-;;;; ==============================
-
 
 ;;; ECA
 ;;(use-package eca
@@ -430,7 +374,7 @@ The DWIM behaviour of this command is as follows:
 
 
 ;;; Agent-Shell
-(use-package agent-shell)
+;;(use-package agent-shell)
 
 
 ;; test

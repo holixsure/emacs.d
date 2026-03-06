@@ -84,7 +84,7 @@ The DWIM behaviour of this command is as follows:
 (let ((mono-spaced-font
        (cond
 	((eq system-type 'darwin) "Menlo")
-;;	((eq system-type 'darwin) "JetBrains Mono")
+	;; ((eq system-type 'darwin) "JetBrains Mono")
 	((eq system-type 'windows-nt) "Consolas")
 	(t "DejaVu Sans Mono")))
       (proportionately-spaced-font "Sans"))

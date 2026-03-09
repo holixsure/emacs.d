@@ -85,7 +85,8 @@ The DWIM behaviour of this command is as follows:
        (cond
 	((eq system-type 'darwin) "Menlo")
 	;; ((eq system-type 'darwin) "JetBrains Mono")
-	((eq system-type 'windows-nt) "Consolas")
+	((eq system-type 'windows-nt) "JetBrains Mono")
+	;; ((eq system-type 'windows-nt) "Consolas")
 	(t "DejaVu Sans Mono")))
       (proportionately-spaced-font "Sans"))
   (cond
@@ -96,11 +97,11 @@ The DWIM behaviour of this command is as follows:
    ((eq system-type 'darwin)
     (set-face-attribute 'default nil
 			:family mono-spaced-font
-			:height 140))
+			:height 130))
    ((eq system-type 'gnu/linux)
     (set-face-attribute 'default nil
 			:family mono-spaced-font
-			:height 140)))
+			:height 130)))
   (set-face-attribute 'fixed-pitch nil
 		      :family mono-spaced-font
 		      :height 1.0)

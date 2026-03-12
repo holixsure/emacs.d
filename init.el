@@ -97,11 +97,11 @@ The DWIM behaviour of this command is as follows:
    ((eq system-type 'darwin)
     (set-face-attribute 'default nil
 			:family mono-spaced-font
-			:height 130))
+			:height 140))
    ((eq system-type 'gnu/linux)
     (set-face-attribute 'default nil
 			:family mono-spaced-font
-			:height 130)))
+			:height 140)))
   (set-face-attribute 'fixed-pitch nil
 		      :family mono-spaced-font
 		      :height 1.0)

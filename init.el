@@ -37,6 +37,18 @@
 
 
 
+;; Disable auto save
+(setq auto-save-default nil)
+
+;; Disable backup
+(setq make-backup-files nil)
+
+
+
+
+
+;; Don't show the splash screen
+(setq inhibit-startup-screen t)
 
 ;; scroll bar
 (scroll-bar-mode -1)

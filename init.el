@@ -201,7 +201,34 @@
 ;; magit
 (use-package magit
   :config
-  (setq magit-log-section-commit-count 100))
+  (setq magit-log-section-commit-count 100
+	;; magit-status-margin '(t "%Y-%m-%d %H:%M:%S" magit-log-margin-width t 18)
+	;; magit-section-initial-visibility-alist '((unstaged . hide) (commit . show))
+	))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Dirvish
+(use-package dirvish
+  :ensure t
+  :init
+  (dirvish-override-dired-mode))
+
+
+;; Treemacs
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind
+  (("C-c t t" . treemacs)))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 ;; hackernews

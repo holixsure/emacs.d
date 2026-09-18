@@ -19,6 +19,11 @@ dist/
 
 custom.el
 
+projects
+tramp
+
 elpa/
 eshell/
 transient/
+tree-sitter/
+url/

@@ -72,7 +72,9 @@
 ;; font size and font family
 (let ((mono-spaced-font
        (cond
-	((eq system-type 'darwin) "Menlo")
+;;;	((eq system-type 'darwin) "Menlo")
+	((eq system-type 'darwin) "SF Mono")
+;;;	((eq system-type 'darwin) "Sarasa Mono SC")
 	((eq system-type 'windows-nt) "JetBrains Mono")
 	(t "DejaVu Sans Mono")))
       (proportionately-spaced-font "Sans"))
@@ -207,6 +209,14 @@
 	))
 
 
+;; ace-window
+(use-package ace-window
+  :ensure t
+  :bind
+  ("M-o" . ace-window)
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -222,8 +232,100 @@
   :ensure t
   :defer t
   :bind
-  (("C-c t t" . treemacs)))
+  (("C-c t t" . treemacs)
+   ("M-0" . treemacs-select-window)))
 
+
+
+
+(use-package markdown-ts-mode
+  :ensure nil
+  :mode ("\\.md\\'" . markdown-ts-mode))
+
+(use-package markdown-ts-appear
+  :vc (markdown-ts-appear
+       :url "https://github.com/Thysrael/markdown-ts-appear"
+       :rev :newest)
+  :hook (markdown-ts-mode . markdown-ts-appear-mode)
+  :config
+  (setq markdown-ts-appear-link-icon '("" . "↗")
+      markdown-ts-appear-image-icon '("" . "▧")
+      markdown-ts-appear-code-fence-style 'connected
+      markdown-ts-appear-label-caps '("" . "")
+      markdown-ts-appear-render-callouts t
+      markdown-ts-appear-block-quote-marker "▎"
+      markdown-ts-appear-table-style 'unicode))
+
+
+(use-package mathjax
+  :ensure t
+  :defer t)
+
+(setq markdown-ts-appear-enable-math-preview t)
+
+
+
+
+
+
+;; rust
+(let ((rustup-bin "/opt/homebrew/opt/rustup/bin"))
+  (add-to-list 'exec-path rustup-bin)
+  (setenv "PATH"
+	  (concat rustup-bin
+		  path-separator
+		  (getenv "PATH"))))
+
+
+;; Tree-sitter
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust")))
+(add-to-list 'auto-mode-alist
+	     '("\\.rs\\'" . rust-ts-mode))
+
+
+;; Rust Alanlyzer + Eglot
+(use-package eglot
+  :ensure nil
+  :hook
+  (rust-ts-mode . eglot-ensure)
+
+  :config
+  (add-to-list
+   'eglot-server-programs
+   '(rust-ts-mode . ("rust-analyzer")))
+
+  (setq-default
+   eglot-workspace-configuration
+   '(:rust-analyzer
+     (:check
+      (:command "clippy")))))
+
+
+;; Completion
+(use-package corfu
+  :init
+  (global-corfu-mode)
+
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 2)
+  (corfu-cycle t))
+
+
+;; Format on save
+(defun my-rust-format-before-save ()
+  (when (and (derived-mode-p 'rust-ts-mode)
+	     (eglot-managed-p))
+    (eglot-format-buffer)))
+
+(add-hook 'before-save-hook #'my-format-before-save)
+
+
+;; Diagnostics
+(global-set-key (kbd "M-g n") #'flymake-goto-next-error)
+(global-set-key (kbd "M-g p") #'flymake-goto-prev-error)
 
 
 
